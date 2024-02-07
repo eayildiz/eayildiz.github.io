@@ -1,9 +1,160 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<link rel="stylesheet" href=".\CSSstyles\index_style.css">
+	</head>
+	
     <title>
         Emir Alper Yildiz
     </title>
-    <body>
-        This is my website.
-    </body>
+	
+	<div class="header">
+		<h2>Blog Yazılarım</h2>
+	</div>
+
+	<div class="row">
+		<div class="leftcolumn">
+			<div class="card">
+				<h2>Listeli Birleştirme Sıralama Algoritması</h2>
+				<h4>02 Şubat 2024</h4>
+				<h5>Sırasız bir listeden sıralı listeler oluşturup birleştirerek sılarama üzerine...</h5>
+				<!--
+				<div class="fakeimg" style="height:200px;">Image</div>
+				-->
+				<h4>Giriş</h4>
+				<p>
+					Bu yazımızda inceleyeceğim algoritma basit bir sıralama algoritması olacak. Instagram üzerinde gördüğüm garip bir algoritmayı geliştirmeyi planlıyorum.
+					Algoritma özet olarak bir listeyi sıralamak için sırayı bozan elemanları listeden siliyordu. Örneğin,<br>
+					
+					5 6 2 9 12 74 3 olan liste sıralama sonunda 5 6 9 12 74 olacaktır.
+					Ben ise sıralamayı bozan elemanları silmek yerine saklayarak daha sonra birleştirerek ilkine denk bir sıralı liste oluşturacağım.<br>	
+				</p>
+				<h4>İlk Adım Elemanları Ayırma</h4>
+				<p>
+					İlk adım sırayı bozan elemanları saklama sorunu çözmek olacak.<br>
+					
+					Insertion sorttan kaçınmak için sakladığımız elemanların da kendi içinde sıralı olması gerekmektedir.
+					Aksi halde, sakladığımız her elemanın doğru yerini asıl listede ararken listeyi baştan sona gezmek zorunda olduğumdan,
+					O(n^2) karmaşıklığa giden bir algoritma tasarlamış olurdum.
+					Benim hedefim ise saklanan elemanların sıralı olması sonucunda, eşleştirme sırasında asıl listeyi baştan sona tek bir seferde doldurmaktır.<br>
+					
+					Bulduğum çözüm asıl listeden çıkarılan elemanların ayrı bir listede sıralı şekilde tutulmasıdır.<br>
+					
+					<h5>Küçükten büyüğe dizi ile sıralama</h5>
+					<pre style="font-size: 14px">
+	int[] arr = {3, 81, 34, 87, 23, 1, 90, 45, 2}
+	int[][] list_of_sorted_arrays = new int[len(arr)][]
+	list_of_sorted_arrays[0] = arr
+	int num_of_sorted_lists = 1
+	
+	for i = 1 to len(arr):
+		if(arr[i] < arr[i - 1]):
+			store(arr[i])	//TODO: implement store
+	sorted_arr = merge_to_sort(listt_of_sorted_arrays)	//TODO: implement this
+					</pre>
+					
+					<h5>Küçükten büyüğe bağlı liste ile sıralama</h5>
+					<pre style="font-size: 14px">
+	list<int> arr = {3, 81, 34, 87, 23, 1, 90, 45, 2}
+	list<list<int>> c = new list<list<int>>
+	list_of_sorted_lists.head = arr
+	list_of_sorted_lists.tail = arr
+	
+	for i = 1 to len(arr):
+		if(arr[i] < arr[i - 1]):
+			store(arr[i])	//TODO: implement store
+	sorted_arr = merge_to_sort(list_of_sorted_lists)	//TODO: implement this
+					</pre>
+					Ancak oluşturulan ikinci listenin sıralı olmasını gözetmek,
+					insertion sort algoritmasını ikiye bölmekle eş değer olmakla birlikte amacımızdan uzaklaşmamız demektir.
+					Onun yerine sıralı özelliğini bozan her yeni eleman yeni bir listenin başı olmalıdır.<br>
+					
+					<h5>Store Fonksiyonunun Dizi İçin Uygulaması</h5>
+					<pre style="font-size: 14px">
+	store(int new_num):
+		for i = 1 to num_of_sorted_lists:	//TODO: Fix num_of_sorted_lists starts with 1.
+			if(list_of_sorted_arrays[i][last_element] <= new_num):	//TODO: Fix last_element problem.
+				list_of_sorted_arrays[i][last_element + 1] = new_num
+				return
+		list_of_sorted_arrays[num_of_sorted_lists][] = new int[len(arr)]	//We can optimize space.
+		list_of_sorted_arrays[num_of_sorted_lists][0] = new_num
+					</pre>
+
+					<h5>Store Fonksiyonunun Sıralı Liste İçin Uygulaması</h5>
+					<pre style="font-size: 14px">
+	store(int new_num):
+		cursor = list_of_sorted_lists.head.next
+		while(cursor != null):
+			if(cursor.tail <= new_num):
+				cursor.tail.next = new_num
+				cursor.tail = cursor.tail.next
+				return
+		list_of_sorted_lists.tail.next = new list<int>
+		list_of_sorted_lists.tail = list_of_sorted_lists.tail.next
+		list_of_sorted_lists.tail.head = new_num
+		list_of_sorted_lists.tail = new_num
+					</pre>
+				</p>
+					
+				<p>
+					Yeni listeler de kendi içinde sıralı olmalı. Eğer sıra bozulacaksa yeni liste yapılmalı.<br>
+					Liste birleştirme çok zeki olmalı yoksa yavaş olur ve yeni liste yaratmanın anlamı kalmaz.<br>
+					Eğer listelerin ilk elemanı sürekli sıralı olursa her iterasyonda liste sayısı kadar eleman karşılaştırılmak zorunda kalınmaz. Sadece liste başlarını tutan liste güncellenmeli.<br>
+					Eğer sürekli en küçük eleman liste başlarında aranırsa O(n*m) olur. m liste sayısıdır.<br>
+					5 6 2 9 12 74 3<br>
+					
+					Ayırma<br>
+					5 6 9 12 74<br>
+					2 3<br>
+					Birleştirme<br>
+					2 3 5 6 9 12 74<br>
+
+					Ayırma<br>
+					5 6<br>
+					2 geldiği için diğer listeler ile karşılaştırma<br>
+					2 için yeni liste<br>
+					9 12 74<br>
+					3, 2'nin olduğu listenin kuyruğu(2)'ndan büyük sona eklenir.<br>
+
+					Örnek 2:<br>
+					3 81 34 87 23 1 90 45 2<br>
+
+					Ayırma<br>
+					3 81 87 90<br>
+					34 45<br>
+					23<br>
+					1 2<br>
+					Birleştirme<br>
+					1 2 3 23 34 45 81 87 90<br>
+				</p>
+			</div>
+			<div class="card">
+				<h2>TITLE HEADING</h2>
+				<h5>Title description, Sep 2, 2017</h5>
+				<div class="fakeimg" style="height:200px;">Image</div>
+				<p>Some text..</p>
+			</div>
+		</div>
+		<div class="rightcolumn">
+			<div class="card">
+				<h2>About Me</h2>
+				<div class="fakeimg" style="height:100px;">Image</div>
+				<p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+			</div>
+			<div class="card">
+	  		    <h3>Popular Post</h3>
+	  		    <div class="fakeimg">Image</div><br>
+	  		    <div class="fakeimg">Image</div><br>
+	  		    <div class="fakeimg">Image</div>
+			</div>
+			<div class="card">
+			    <h3>Follow Me</h3>
+			    <p>Some text..</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+	    <h2>Footer</h2>
+	</div> 
 </html>
