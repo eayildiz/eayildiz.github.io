@@ -42,28 +42,28 @@
 					
 					<h5>Küçükten büyüğe dizi ile sıralama</h5>
 					<pre style="font-size: 14px">
-	int[] arr = {3, 81, 34, 87, 23, 1, 90, 45, 2}
-	int[][] list_of_sorted_arrays = new int[len(arr)][]
-	list_of_sorted_arrays[0] = arr
-	int num_of_sorted_lists = 1
+  int[] arr = {3, 81, 34, 87, 23, 1, 90, 45, 2}
+  int[][] list_of_sorted_arrays = new int[len(arr)][]
+  list_of_sorted_arrays[0] = arr
+  int num_of_sorted_lists = 1
 	
-	for i = 1 to len(arr):
-		if(arr[i] < arr[i - 1]):
-			store(arr[i])	//TODO: implement store
-	sorted_arr = merge_to_sort(listt_of_sorted_arrays)	//TODO: implement this
+  for i = 1 to len(arr):
+    if(arr[i] < arr[i - 1]):
+      store(arr[i])	//TODO: implement store
+  sorted_arr = merge_to_sort(listt_of_sorted_arrays)	//TODO: implement this
 					</pre>
 					
 					<h5>Küçükten büyüğe bağlı liste ile sıralama</h5>
 					<pre style="font-size: 14px">
-	list<int> arr = {3, 81, 34, 87, 23, 1, 90, 45, 2}
-	list<list<int>> c = new list<list<int>>
-	list_of_sorted_lists.head = arr
-	list_of_sorted_lists.tail = arr
+  list<int> arr = {3, 81, 34, 87, 23, 1, 90, 45, 2}
+  list<list<int>> c = new list<list<int>>
+  list_of_sorted_lists.head = arr
+  list_of_sorted_lists.tail = arr
 	
-	for i = 1 to len(arr):
-		if(arr[i] < arr[i - 1]):
-			store(arr[i])	//TODO: implement store
-	sorted_arr = merge_to_sort(list_of_sorted_lists)	//TODO: implement this
+  for i = 1 to len(arr):
+    if(arr[i] < arr[i - 1]):
+      store(arr[i])	//TODO: implement store
+  sorted_arr = merge_to_sort(list_of_sorted_lists)	//TODO: implement this
 					</pre>
 					Ancak oluşturulan ikinci listenin sıralı olmasını gözetmek,
 					insertion sort algoritmasını ikiye bölmekle eş değer olmakla birlikte amacımızdan uzaklaşmamız demektir.
@@ -71,28 +71,28 @@
 					
 					<h5>Store Fonksiyonunun Dizi İçin Uygulaması</h5>
 					<pre style="font-size: 14px">
-	store(int new_num):
-		for i = 1 to num_of_sorted_lists:	//TODO: Fix num_of_sorted_lists starts with 1.
-			if(list_of_sorted_arrays[i][last_element] <= new_num):	//TODO: Fix last_element problem.
-				list_of_sorted_arrays[i][last_element + 1] = new_num
-				return
-		list_of_sorted_arrays[num_of_sorted_lists][] = new int[len(arr)]	//We can optimize space.
-		list_of_sorted_arrays[num_of_sorted_lists][0] = new_num
+  store(int new_num):
+    for i = 1 to num_of_sorted_lists:	//TODO: Fix num_of_sorted_lists starts with 1.
+      if(list_of_sorted_arrays[i][last_element] <= new_num):	//TODO: Fix last_element problem.
+        list_of_sorted_arrays[i][last_element + 1] = new_num
+          return
+    list_of_sorted_arrays[num_of_sorted_lists][] = new int[len(arr)]	//We can optimize space.
+    list_of_sorted_arrays[num_of_sorted_lists][0] = new_num
 					</pre>
 
 					<h5>Store Fonksiyonunun Sıralı Liste İçin Uygulaması</h5>
 					<pre style="font-size: 14px">
-	store(int new_num):
-		cursor = list_of_sorted_lists.head.next
-		while(cursor != null):
-			if(cursor.tail <= new_num):
-				cursor.tail.next = new_num
-				cursor.tail = cursor.tail.next
-				return
-		list_of_sorted_lists.tail.next = new list<int>
-		list_of_sorted_lists.tail = list_of_sorted_lists.tail.next
-		list_of_sorted_lists.tail.head = new_num
-		list_of_sorted_lists.tail = new_num
+  store(int new_num):
+    cursor = list_of_sorted_lists.head.next
+      while(cursor != null):
+        if(cursor.tail <= new_num):
+          cursor.tail.next = new_num
+          cursor.tail = cursor.tail.next
+          return
+    list_of_sorted_lists.tail.next = new list<int>
+    list_of_sorted_lists.tail = list_of_sorted_lists.tail.next
+    list_of_sorted_lists.tail.head = new_num
+    list_of_sorted_lists.tail = new_num
 					</pre>
 				</p>
 					
